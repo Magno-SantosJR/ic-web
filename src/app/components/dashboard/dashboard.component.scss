@@ -1,0 +1,147 @@
+/* --- Variáveis de Cores Modernas (Estilo Dark/Tech ou Clean) --- */
+:root {
+  --primary-color: #007bff;      /* Azul Univali */
+  --bg-app: #f4f6f9;             /* Fundo cinza claro estilo app */
+  --card-bg: #ffffff;
+  --text-main: #333333;
+  --danger-color: #dc3545;
+  --success-color: #28a745;
+}
+
+/* --- Container Principal do Dashboard --- */
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--bg-app);
+  color: var(--text-main);
+  font-family: 'Segoe UI', Roboto, sans-serif;
+  padding: 15px;
+}
+
+/* --- Menu de Topo (Header) estilo App --- */
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 15px;
+  background-color: var(--card-bg);
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  margin-bottom: 20px;
+
+  h2 {
+    font-size: 1.2rem;
+    margin: 0;
+  }
+}
+
+/* --- Cards de Ação (Retirada / Devolução) --- */
+.card-acao {
+  background: var(--card-bg);
+  border-radius: 16px; /* Bordas bem arredondadas estilo iOS/Android */
+  padding: 20px;
+  margin-bottom: 15px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  
+  /* Inputs Modernos e Grandes para o Dedo Clicar Fácil */
+  input, textarea {
+    width: 100%;
+    padding: 12px;
+    margin-top: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 1rem;
+    box-sizing: border-box;
+    
+    &:focus {
+      border-color: var(--primary-color);
+      outline: none;
+    }
+  }
+
+  /* Botões estilo App */
+  button {
+    width: 100%; /* Ocupa a largura toda no celular */
+    padding: 14px;
+    font-size: 1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+}
+
+/* --- Grid para Computador (Se a tela for grande, vira colunas lado a lado) --- */
+@media (min-width: 768px) {
+  .actions-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+}
+
+/* ==========================================================================
+   🖨️ REGRAS MÁGICAS DE IMPRESSÃO (Sem seletores dinâmicos complexos)
+   ========================================================================== */
+@media print {
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* 🟢 REMOVIDO html, body DAQUI PARA NÃO TRAVAR O NAVEGADOR */
+
+  table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    color: #000000 !important;
+    background: #ffffff !important;
+  }
+
+  thead {
+    background: #eaebed !important;
+  }
+
+  thead th {
+    color: #000000 !important;
+    font-weight: bold !important;
+    border: 1px solid #000000 !important;
+    font-size: 10px !important;
+    padding: 6px !important;
+    text-transform: uppercase;
+  }
+
+  tbody tr {
+    background: #ffffff !important;
+    page-break-inside: avoid;
+  }
+
+  td {
+    color: #000000 !important;
+    border: 1px solid #d1d5db !important;
+    font-size: 9px !important;
+    padding: 6px !important;
+    white-space: normal !important; 
+    word-break: break-word !important;
+  }
+
+  td span, td font, td strong {
+    color: #000000 !important;
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+  }
+
+  button, .print\:hidden, ::-webkit-scrollbar {
+    display: none !important;
+  }
+}
+
+/* Container interno da câmera limpo */
+#reader {
+  border: none !important;
+  width: 100% !important;
+}

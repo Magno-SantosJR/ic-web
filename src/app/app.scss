@@ -1,0 +1,16 @@
+/* 🖨️ Força o Modo Paisagem GLOBAL apenas quando a tabela do painel for impressa */
+@media print {
+  body.imprimindo-tabela-larga {
+    @page {
+      size: landscape !important;
+      margin: 8mm !important;
+    }
+    
+    html, body {
+      background: #ffffff !important;
+      color: #000000 !important;
+      overflow: visible !important;
+      height: auto !important;
+    }
+  }
+}

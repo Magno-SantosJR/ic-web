@@ -1,0 +1,59 @@
+<div class="min-h-screen bg-[#0d0e12] flex items-center justify-center p-4">
+  
+  <div class="w-full max-w-xl bg-[#16171d] rounded-3xl p-8 shadow-2xl border border-gray-800/60">
+    
+    <h2 class="text-center text-3xl font-extrabold text-white mb-2">
+      {{ modoCadastro ? 'Bem-vindo' : 'Bem-vindo de volta' }}
+    </h2>
+    
+    <p class="text-center text-gray-400 text-base mb-8">
+      {{ modoCadastro ? 'Cadastre-se para acessar o sistema IC Arte & Cultura' : 'Acesse o sistema IC Arte & Cultura para continuar' }}
+    </p>
+
+    <form (ngSubmit)="onSubmit()" class="flex flex-col gap-5">
+      
+      <div *ngIf="erroMensagem" class="bg-red-500/10 border border-red-500/20 text-red-400 p-4 rounded-xl text-sm font-medium">
+        ⚠️ {{ erroMensagem }}
+      </div>
+
+      <div *ngIf="sucessoMensagem" class="bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 p-4 rounded-xl text-sm font-medium">
+        ✅ {{ sucessoMensagem }}
+      </div>
+
+      <div *ngIf="modoCadastro" class="flex flex-col gap-2">
+        <label class="text-sm font-semibold text-gray-300">Nome Completo</label>
+        <input type="text" [(ngModel)]="nome" name="nome" placeholder="EX: JOAO SOUZA" required
+               class="uppercase bg-[#0d0e12] border border-gray-800 rounded-xl p-4 text-white placeholder-gray-600 focus:outline-none focus:border-indigo-500 transition-all">
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <label class="text-sm font-semibold text-gray-300">E-mail</label>
+        <input type="email" [(ngModel)]="email" name="email" placeholder="seu-email@univali.br" required
+               class="bg-[#0d0e12] border border-gray-800 rounded-xl p-4 text-white placeholder-gray-600 focus:outline-none focus:border-indigo-500 transition-all">
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <label class="text-sm font-semibold text-gray-300">Senha</label>
+        <input type="password" [(ngModel)]="password" name="password" placeholder="••••••••" required
+               class="bg-[#0d0e12] border border-gray-800 rounded-xl p-4 text-white placeholder-gray-600 focus:outline-none focus:border-indigo-500 transition-all">
+      </div>
+
+      <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 rounded-xl text-base transition-all mt-2 shadow-lg shadow-indigo-600/10 cursor-pointer">
+        {{ modoCadastro ? 'Criar Conta Operacional' : 'Entrar no Sistema' }}
+      </button>
+    </form>
+
+    <div class="text-right mt-2">
+      <button type="button" (click)="esqueciSenha()" class="text-xs text-indigo-400 hover:text-indigo-300 hover:underline cursor-pointer bg-transparent border-none">
+        Esqueceu a senha?
+      </button>
+    </div>
+
+    <div class="mt-8 pt-6 border-t border-gray-800/60 text-center">
+      <button (click)="alternarModo()" class="text-sm text-indigo-400 hover:text-indigo-300 font-semibold transition bg-transparent border-none cursor-pointer">
+        {{ modoCadastro ? 'Já possui login? Acesse sua conta aqui' : 'Não tem conta operacional? Cadastre-se aqui' }}
+      </button>
+    </div>
+
+  </div>
+</div>

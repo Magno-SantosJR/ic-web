@@ -1,1 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Suas regras personalizadas de reset podem ficar aqui se precisar */
+body {
+  margin: 0;
+  background-color: #0d0e12;
+}
+
+// body {
+//   margin: 0;
+//   padding: 0;
+//   box-sizing: border-box;
+//   align-items: center;
+//   // background-color: #0d0d0f;
+//   // background-image: 
+//   //   linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+//   //   linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+//   // background-size: 40px 40px;
+//   background-color: #0d0d0f;
+//   background-image: 
+//     linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+//     linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+//   background-size: 40px 40px;
+//   height: 100vh;
+// }
 /* You can add global styles to this file, and also import other style files */
