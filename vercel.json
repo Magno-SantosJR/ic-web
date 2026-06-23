@@ -2,7 +2,8 @@
   "version": 2,
   "cleanUrls": true,
   "outputDirectory": "dist/iCWeb/browser",
-  "rewrites": [
-    { "source": "/(.*)", "destination": "/index.html" }
+  "routes": [
+    { "handle": "filesystem" },
+    { "src": "/.*", "dest": "/index.html" }
   ]
 }
