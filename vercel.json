@@ -1,5 +1,7 @@
 {
+  "version": 2,
   "cleanUrls": true,
+  "outputDirectory": "dist/icweb/browser",
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }
   ]
