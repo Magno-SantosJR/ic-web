@@ -59,7 +59,7 @@ export class DashboardComponent implements OnInit {
   public cameraSelecionada: MediaDeviceInfo | undefined;
   // Controle manual de lentes
   public listaLentesTraseiras: MediaDeviceInfo[] = [];
-  
+
   public formatosAceitos = [
     BarcodeFormat.CODE_128,
     BarcodeFormat.CODE_39,
@@ -69,33 +69,33 @@ export class DashboardComponent implements OnInit {
 
   // 🟢 NOVO: Armazena apenas os equipamentos que realmente saíram para o evento selecionado
   public listaEquipamentosPendentesDoEvento: { id_equipamento: string; nome: string; }[] = [];
-  
+
   public imprimindoTabela: boolean = false;
-  
+
   public ultimaRetiradaImpressao: {
     evento: string;
     data: string;
     operador: string;
-    itens: { 
-      id_equipamento: string; 
+    itens: {
+      id_equipamento: string;
       nome: string;
       data_retirada: string;
       operador_item: string;
-    }[];      
+    }[];
   } | null = null;
-  
+
   public imprimindoRecibo: boolean = false;
 
   constructor(
     public authService: AuthService,
     private equipamentosService: EquipamentosService,
     private router: Router,
-  ) {}
+  ) { }
 
   async ngOnInit() {
-    try { 
+    try {
       this.idUsuarioLogado = await this.authService.ObterUsuarioId();
-      this.nomeUsuarioLogado = this.authService.obterNomeUsuario(); 
+      this.nomeUsuarioLogado = this.authService.obterNomeUsuario();
 
       if (!this.idUsuarioLogado) {
         console.warn("Usuário não autenticado ou token inválido. Redirecionando...");
@@ -162,7 +162,7 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  imprimirTabela(){
+  imprimirTabela() {
     if (this.relatorioMovimentacoes.length === 0) {
       Swal.fire({
         icon: 'info',
@@ -174,7 +174,7 @@ export class DashboardComponent implements OnInit {
       });
       return;
     }
-    
+
     this.imprimindoTabela = true;
 
     // 🟢 Injeta a classe global no BODY para forçar a rotação em Paisagem via styles.scss
@@ -186,7 +186,7 @@ export class DashboardComponent implements OnInit {
       document.body.classList.remove('imprimindo-tabela-larga');
     }, 350);
   }
-  
+
   exportarCSV() {
     if (this.relatorioMovimentacoes.length === 0) {
       Swal.fire({
@@ -205,14 +205,14 @@ export class DashboardComponent implements OnInit {
       const dataRetirada = mov.data_retirada ? new Date(mov.data_retirada).toLocaleString('pt-BR') : '';
       const dataDevolucao = mov.data_devolucao ? new Date(mov.data_devolucao).toLocaleString('pt-BR') : 'EM EVENTO';
       return [
-        mov.operador_retirada?.nome || 'N/A', 
-        mov.operador_devolucao?.nome || '-',   
+        mov.operador_retirada?.nome || 'N/A',
+        mov.operador_devolucao?.nome || '-',
         mov.evento || 'S/E',
         mov.equipamentos?.nome || 'N/A',
         `"${mov.id_equipamento}"`,
         dataRetirada,
         dataDevolucao,
-        mov.status_retorno || 'EM EVENTO', 
+        mov.status_retorno || 'EM EVENTO',
         mov.observacoes_devolucao || '-'
       ];
     });
@@ -237,7 +237,7 @@ export class DashboardComponent implements OnInit {
   }
 
   get estoqueFiltrado() {
-    return this.estoqueGeral.filter(item => 
+    return this.estoqueGeral.filter(item =>
       item.nome.toLowerCase().includes(this.termoBuscaEstoque.toLowerCase()) ||
       item.id_equipamento.toLowerCase().includes(this.termoBuscaEstoque.toLowerCase()) ||
       item.status.toLowerCase().includes(this.termoBuscaEstoque.toLowerCase())
@@ -247,7 +247,7 @@ export class DashboardComponent implements OnInit {
   mudarAba(aba: string) {
     this.abaAtiva = aba;
     this.limparCesta();
-    if(aba === 'devolucao') this.carregarFiltroEventos();
+    if (aba === 'devolucao') this.carregarFiltroEventos();
   }
 
   adicionarNaCesta() {
@@ -291,6 +291,25 @@ export class DashboardComponent implements OnInit {
     this.codigoInput = '';
   }
 
+  // Retorna apenas os equipamentos que NÃO estão na cesta
+  get equipamentosDisponiveis() {
+    return this.listaEquipamentosPendentesDoEvento.filter(equipamento =>
+      !this.cestaItens.some(itemNaCesta => itemNaCesta.id_equipamento === equipamento.id_equipamento)
+    );
+  }
+
+  adicionarAoSelecionar(idEquipamento: string) {
+    if (!idEquipamento) return;
+
+    const equipamento = this.listaEquipamentosPendentesDoEvento.find(
+      eq => eq.id_equipamento === idEquipamento
+    );
+
+    if (equipamento) {
+      this.adicionarEquipamentoNaDevolucao(equipamento);
+    }
+  }
+
   removerDaCesta(index: number) {
     this.cestaItens.splice(index, 1);
   }
@@ -298,8 +317,8 @@ export class DashboardComponent implements OnInit {
   mapearLentesDisponiveis(dispositivos: MediaDeviceInfo[]) {
     if (!dispositivos || dispositivos.length === 0) return;
 
-    this.listaLentesTraseiras = dispositivos.filter(device => 
-      device.label.toLowerCase().includes('back') || 
+    this.listaLentesTraseiras = dispositivos.filter(device =>
+      device.label.toLowerCase().includes('back') ||
       device.label.toLowerCase().includes('traseira') ||
       device.label.toLowerCase().includes('rear') ||
       device.label.toLowerCase().includes('0')
@@ -317,13 +336,13 @@ export class DashboardComponent implements OnInit {
   alterarLenteManual(event: Event) {
     const selectElement = event.target as HTMLSelectElement;
     const deviceId = selectElement.value;
-    
+
     const lenteAchada = this.listaLentesTraseiras.find(cam => cam.deviceId === deviceId);
     if (lenteAchada) {
       this.cameraSelecionada = lenteAchada;
     }
   }
-  
+
   aoScannearCodigo(resultado: string) {
     if (resultado) {
       this.codigoInput = resultado.trim().toUpperCase();
@@ -372,7 +391,7 @@ export class DashboardComponent implements OnInit {
       alert('Sua lista de equipamentos está vazia! Bipe algum item.');
       return;
     }
-    
+
     if (!this.eventoInput) {
       alert('Por favor, digite ou selecione o nome do Evento.');
       return;
@@ -459,8 +478,8 @@ export class DashboardComponent implements OnInit {
       itens: itensDoLote.map(mov => ({
         id_equipamento: mov.id_equipamento,
         nome: mov.equipamentos?.nome || 'N/A',
-        data_retirada: mov.data_retirada, 
-        operador_item: mov.operador_retirada?.nome || 'N/A' 
+        data_retirada: mov.data_retirada,
+        operador_item: mov.operador_retirada?.nome || 'N/A'
       }))
     };
 
@@ -482,7 +501,7 @@ export class DashboardComponent implements OnInit {
       showCancelButton: true,
       confirmButtonText: 'Sim, Retornar',
       cancelButtonText: 'Cancelar',
-      confirmButtonColor: '#10b981', 
+      confirmButtonColor: '#10b981',
       cancelButtonColor: '#1d1f27',
       background: '#16171d',
       color: '#fff'
@@ -491,7 +510,7 @@ export class DashboardComponent implements OnInit {
     if (confirmou.isConfirmed) {
       try {
         await this.equipamentosService.finalizarManutencao(id, this.idUsuarioLogado);
-        
+
         this.estoqueGeral = this.estoqueGeral.map(item => {
           if (item.id_equipamento === id) {
             return { ...item, status: 'Disponivel' };

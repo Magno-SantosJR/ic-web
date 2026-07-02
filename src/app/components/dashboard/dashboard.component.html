@@ -105,10 +105,10 @@
             <label class="text-sm md:text-base font-semibold text-gray-300">Selecione o Equipamento para Retorno</label>
             <div class="flex flex-col sm:flex-row gap-2 w-full">
               
-              <select #eqSelect class="w-full sm:flex-1 bg-[#0d0e12] text-white border border-gray-800 rounded-xl px-3 py-3.5 focus:outline-none focus:border-sky-500 font-sans text-sm md:text-base">
+              <select #eqSelect (change)="adicionarAoSelecionar(eqSelect.value); eqSelect.value = ''" class="w-full sm:flex-1 bg-[#0d0e12] text-white border border-gray-800 rounded-xl px-3 py-3.5 focus:outline-none focus:border-sky-500 font-sans text-sm md:text-base">
                 <option value="" disabled selected>-- Escolha o item que está voltando --</option>
-                <option *ngFor="let eq of listaEquipamentosPendentesDoEvento" [ngValue]="eq">
-                  {{ eq.id_equipamento }} - {{ eq.nome }}
+                <option *ngFor="let equipamento of equipamentosDisponiveis" [value]="equipamento.id_equipamento">
+                  {{ equipamento.nome }}
                 </option>
               </select>
 
